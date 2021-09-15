@@ -7,8 +7,8 @@ namespace Snake
     {
         static int h = 25;
         static int w = 50;
-        static int[] X = new int[50];
-        static int[] Y = new int[50];
+        static int[] X = new int[250];
+        static int[] Y = new int[250];
         static int fX;
         static int fY;
         static int bodyCnt = 3; //starting size
@@ -28,10 +28,10 @@ namespace Snake
             Console.BufferWidth = Console.WindowWidth;
             Console.BufferHeight = Console.WindowHeight;
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(Banners.snake);
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n\n               Press enter to start...");
-            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.ReadLine();
             //Console.ReadKey();
             RunGame();
@@ -64,6 +64,11 @@ namespace Snake
             }
         }
 
+        static void GenBrd()
+        {
+            Console.Clear();
+        }
+
         public static void Input()
         {
             if(Console.KeyAvailable)
@@ -73,10 +78,12 @@ namespace Snake
             }
         }
 
-        public static void DrawPoint(int x, int y, string ch)
+        public static void DrawPoint(int x, int y, string ch, ConsoleColor color)
         {
             Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
             Console.Write(ch);
+            Console.ForegroundColor = ConsoleColor.Cyan;
         }
 
         public static void Game()
@@ -116,8 +123,8 @@ namespace Snake
                 }
                 for(int i = 0; i <= (bodyCnt-1); i++)
                 {
-                    DrawPoint(X[i], Y[i], "■");
-                    DrawPoint(fX, fY, "▣");
+                    DrawPoint(X[i], Y[i], "■", ConsoleColor.Green);
+                    DrawPoint(fX, fY, "▣", ConsoleColor.Red);
                 }
                 Thread.Sleep(50);
             }
@@ -132,7 +139,9 @@ namespace Snake
             gameStarted = false;
             gameOver = true;
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.Write(Banners.gameOver);
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"\n\n                     Score: {bodyCnt}");
             Console.WriteLine("" + "               Process exited 0x00f...\n");
             Console.WriteLine("                       Menu :");
@@ -159,8 +168,8 @@ namespace Snake
 
         public static void RunGame()
         {
-            X = new int[50];
-            Y = new int[50];
+            X = new int[250];
+            Y = new int[250];
             bodyCnt = 3;
             X[0] = 5;
             Y[0] = 5;
@@ -172,7 +181,8 @@ namespace Snake
             {
                 if(gameOver)
                     break;
-                GenerateCanvas();
+                //GenerateCanvas();
+                GenBrd();
                 Input();
                 Game();
             }
@@ -181,7 +191,7 @@ namespace Snake
 
     class Banners
     {
-        public static string gameOver = "\n\n\n"+ 
+        public static string gameOver = "\n\n\n\n\n"+ 
                                         "  " +" _____                     _____\n"  +          
                                         "  " +"|   __| ___  _____  ___   |     | _ _  ___  ___ \n"+
                                         "  " +"|  |  || .'||     || -_|  |  |  || | || -_||  _|\n"+
